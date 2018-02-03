@@ -1,10 +1,6 @@
 module Bob exposing (hey)
 
-import Regex exposing (regex, contains)
-import String exposing (isEmpty, toUpper)
 import Char exposing (isUpper, isLower)
-
-question = regex "\\?$"
 
 hey : String -> String
 hey statement =
@@ -19,15 +15,15 @@ hey statement =
 
 isMute : String -> Bool
 isMute statement =
-  Regex.contains ( regex "^\\s*$" ) statement
+  String.trim statement
+    |> String.isEmpty
 
 isShouting : String -> Bool
 isShouting statement =
   let
     letters = String.filter isLetter statement
-    uppercaseLetters = String.toUpper letters
   in
-    not (String.isEmpty letters) && letters == uppercaseLetters
+    letters /= "" && letters == String.toUpper letters
 
 isLetter : Char -> Bool
 isLetter char =
@@ -35,4 +31,4 @@ isLetter char =
 
 isQuestion : String -> Bool
 isQuestion statement =
-  Regex.contains ( regex "\\?$" ) statement
+  String.endsWith "?" statement
