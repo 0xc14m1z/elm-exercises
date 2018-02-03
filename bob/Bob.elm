@@ -5,18 +5,21 @@ import String exposing (isEmpty, toUpper)
 import Char exposing (isUpper, isLower)
 
 question = regex "\\?$"
-mute = regex "^\\s*$"
 
 hey : String -> String
 hey statement =
-  if contains mute statement then
+  if isMute statement then
     "Fine. Be that way!"
   else if isShouting statement then
     "Whoa, chill out!"
-  else if contains question statement then
+  else if isQuestion statement then
     "Sure."
   else
     "Whatever."
+
+isMute : String -> Bool
+isMute statement =
+  Regex.contains ( regex "^\\s*$" ) statement
 
 isShouting : String -> Bool
 isShouting statement =
@@ -29,3 +32,7 @@ isShouting statement =
 isLetter : Char -> Bool
 isLetter char =
   Char.isUpper char || Char.isLower char
+
+isQuestion : String -> Bool
+isQuestion statement =
+  Regex.contains ( regex "\\?$" ) statement
